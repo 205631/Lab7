@@ -29,6 +29,7 @@ public class ParolaDAO {
 			while(rs.next()==true){
 				l.add(rs.getString("nome"));
 			}
+			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -39,7 +40,7 @@ public class ParolaDAO {
 		return l;
 	}
 	
-	public List<String> checkParole(String s){
+	public List<String> checkParole(List<String> s){
 		
 		List<String> l=new ArrayList();
 		
@@ -51,11 +52,15 @@ public class ParolaDAO {
 		PreparedStatement st;
 		try {
 				st=conn.prepareStatement(sql);
-				st.setString(1,s);
-				ResultSet rs=st.executeQuery();
-				while(rs.next()){
-					l.add(rs.getString("nome"));
+				for(int i=0;i<s.size();i++){
+					st.setString(1, s.get(i));
+					ResultSet rs=st.executeQuery();
+					while(rs.next()){
+						l.add(rs.getString("nome"));
+					}
 				}
+				
+				conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
