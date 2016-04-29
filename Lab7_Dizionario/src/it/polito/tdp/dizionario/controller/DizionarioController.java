@@ -2,6 +2,10 @@ package it.polito.tdp.dizionario.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
 
 import it.polito.tdp.dizionario.model.DizionarioModel;
 import javafx.event.ActionEvent;
@@ -13,6 +17,7 @@ import javafx.scene.control.TextField;
 public class DizionarioController {
 	
 	private DizionarioModel dm;
+	private SimpleGraph<String,DefaultEdge> wordGraph;
 
     @FXML
     private ResourceBundle resources;
@@ -47,8 +52,24 @@ public class DizionarioController {
 
     @FXML
     void doGeneraGrafo(ActionEvent event) {
-
-    	dm.generaGrafo(Integer.parseInt(txtNumero.getText()));
+    	try{
+    		Integer.parseInt(txtNumero.getText());
+    	}catch(NumberFormatException nfe){
+    		txtResult.setText("ERRORE INSERIRE UN NUMERO");
+    		return;
+    	}
+    	
+    	wordGraph=dm.generaGrafo(Integer.parseInt(txtNumero.getText()));
+    	String risV="";
+    	String risE="";
+    	for(String s:wordGraph.vertexSet()){
+    		risV+=s+"\n";
+    	}
+    	for(DefaultEdge d:wordGraph.edgeSet()){
+    		risE+=d.toString()+"\n";
+    	}
+    	
+    	txtResult.setText("VERTICI:\n"+risV+"\nARCHI:\n"+risE);
     	
     }
 
@@ -66,7 +87,17 @@ public class DizionarioController {
 
     @FXML
     void doTrovaVicini(ActionEvent event) {
-
+    	String ris="";
+    	txtResult.setText("");
+    	Set<DefaultEdge> archi=wordGraph.edgesOf(txtParola.getText());
+    	for(DefaultEdge d:archi){
+    		if(wordGraph.getEdgeTarget(d).compareTo(txtParola.getText())==0)
+    			ris+=wordGraph.getEdgeSource(d)+"\n";
+    		else
+    			ris+=wordGraph.getEdgeTarget(d)+"\n";
+    	}
+    	txtResult.setText("ARCHI:\n"+ris);
+    	
     }
 
     @FXML

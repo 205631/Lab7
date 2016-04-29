@@ -10,13 +10,13 @@ import it.polito.tdp.dizionario.db.ParolaDAO;
 
 public class DizionarioModel {
 
-	List<String> parole=new ArrayList<String>();
+	List<String> parole;
 	ParolaDAO p=new ParolaDAO();
 	int f=0;
 	int f2=0;
 	
-	protected SimpleGraph<String, DefaultEdge> wordGraph = 
-			new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+	protected SimpleGraph<String, DefaultEdge> wordGraph;
+			
 	
 	
 	
@@ -30,8 +30,9 @@ public class DizionarioModel {
 		
 	}
 	
-	public void generaGrafo(int num){
-		
+	public SimpleGraph<String,DefaultEdge> generaGrafo(int num){
+		wordGraph=new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+		parole=new ArrayList<String>();
 		parole.addAll(p.trovaParole(num));
 		//aggiungi i vertici
 		for(String s:parole){
@@ -41,7 +42,7 @@ public class DizionarioModel {
 		System.out.println(f);
 		//aggiungi archi con db
 		/*for(String s:parole){
-			for(String s2:jolly(s)){
+			for(String s2:jollyDB(s)){
 				if(wordGraph.containsEdge(s, s2)==false && s.compareTo(s2)!=0){
 					wordGraph.addEdge(s, s2);
 					f2++;
@@ -56,10 +57,10 @@ public class DizionarioModel {
 				}
 			}
 		}
-		
+		return wordGraph;
 	}
 	
-	public List<String> jolly(String s){
+	public List<String> jollyDB(String s){
 		List<String> l=new ArrayList<String>();
 		List<String> ris=new ArrayList<String>();
 		
@@ -75,6 +76,7 @@ public class DizionarioModel {
 		
 	
 	public List<String> jollyNoDB(String s,List<String> lista){
+		
 		List<String> ris=new ArrayList<String>();
 		for(String temp:lista){
 			if(temp.compareTo(s)!=0 && controllo(temp,s)==true){
