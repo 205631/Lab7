@@ -68,6 +68,8 @@ public class DizionarioController {
     	for(DefaultEdge d:wordGraph.edgeSet()){
     		risE+=d.toString()+"\n";
     	}
+    	btnTrovaVicini.setDisable(false);
+    	btnTrovaTutti.setDisable(false);
     	
     	txtResult.setText("VERTICI:\n"+risV+"\nARCHI:\n"+risE);
     	
@@ -78,25 +80,45 @@ public class DizionarioController {
     	txtNumero.setText("");
     	txtParola.setText("");
     	txtResult.setText("");
+    	btnTrovaVicini.setDisable(true);
+    	btnTrovaTutti.setDisable(true);
     }
 
     @FXML
     void doTrovaTutti(ActionEvent event) {
-
+    	txtResult.setText("");
+    	if(txtParola.getText().matches("[a-zA-Z]+")==false){
+    		txtResult.setText("ERRORE INSERIRE UNA PAROLA");
+    		return;
+    	}
+    	if(wordGraph.containsVertex(txtParola.getText())==false){
+    		txtResult.setText("La parola '"+txtParola.getText()+"' non è presente nel grafo!");
+    		return;
+    	}
+    	String ris=dm.trovaTutti(wordGraph,txtParola.getText());
+    	if(ris.compareTo("")==0)
+    		txtResult.setText("La parola '"+txtParola.getText()+"' non ha vicini!");
+    	else
+    		txtResult.setText("TUTTI I VERTICI VISITATI:\n"+ris);
     }
 
     @FXML
     void doTrovaVicini(ActionEvent event) {
     	String ris="";
     	txtResult.setText("");
-    	Set<DefaultEdge> archi=wordGraph.edgesOf(txtParola.getText());
-    	for(DefaultEdge d:archi){
-    		if(wordGraph.getEdgeTarget(d).compareTo(txtParola.getText())==0)
-    			ris+=wordGraph.getEdgeSource(d)+"\n";
-    		else
-    			ris+=wordGraph.getEdgeTarget(d)+"\n";
+    	if(txtParola.getText().matches("[a-zA-Z]+")==false){
+    		txtResult.setText("ERRORE INSERIRE UNA PAROLA");
+    		return;
     	}
-    	txtResult.setText("ARCHI:\n"+ris);
+    	if(wordGraph.containsVertex(txtParola.getText())==false){
+    		txtResult.setText("La parola '"+txtParola.getText()+"' non è presente nel grafo!");
+    		return;
+    	}
+    	ris=dm.trovaVicini(wordGraph,txtParola.getText());
+    	if(ris.compareTo("")==0)
+    		txtResult.setText("La parola '"+txtParola.getText()+"' non ha vicini!");
+    	else
+    		txtResult.setText("ARCHI:\n"+ris);
     	
     }
 

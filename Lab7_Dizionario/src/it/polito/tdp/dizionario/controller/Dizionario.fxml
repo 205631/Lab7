@@ -39,8 +39,8 @@
             <HBox alignment="CENTER_LEFT" spacing="50.0">
                <children>
                   <Button fx:id="btnGeneraGrafo" mnemonicParsing="false" onAction="#doGeneraGrafo" prefHeight="25.0" prefWidth="103.0" text="Genera Grafo" />
-                  <Button fx:id="btnTrovaVicini" mnemonicParsing="false" onAction="#doTrovaVicini" prefHeight="25.0" prefWidth="115.0" text="Trova vicini" />
-                  <Button fx:id="btnTrovaTutti" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#doTrovaTutti" text="Trova tutti connessi" />
+                  <Button fx:id="btnTrovaVicini" disable="true" mnemonicParsing="false" onAction="#doTrovaVicini" prefHeight="25.0" prefWidth="115.0" text="Trova vicini" />
+                  <Button fx:id="btnTrovaTutti" alignment="CENTER_RIGHT" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#doTrovaTutti" text="Trova tutti connessi" />
                </children>
                <padding>
                   <Insets left="20.0" />
